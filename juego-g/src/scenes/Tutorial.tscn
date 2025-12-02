@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://caaaxm0270b45"]
+
+[ext_resource type="PackedScene" uid="uid://5pcmwwmdjo5x" path="res://src/scenes/player.tscn" id="1_i0tf0"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_c0vbl"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_qym7o"]
+sky_material = SubResource("ProceduralSkyMaterial_c0vbl")
+
+[sub_resource type="Environment" id="Environment_o3x65"]
+background_mode = 2
+sky = SubResource("Sky_qym7o")
+tonemap_mode = 2
+
+[sub_resource type="BoxMesh" id="BoxMesh_cfupw"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ode58"]
+points = PackedVector3Array(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5)
+
+[node name="tutorial" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.575349, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_o3x65")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0.356748, -0.184791, 0.915742, -0.35033, 0.882243, 0.31451, 0, 1.99008, 0)
+shadow_enabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(20, 0, 0, 0, 0.5, 0, 0, 0, 20, 0, 0, 0)
+mesh = SubResource("BoxMesh_cfupw")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_ode58")
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("1_i0tf0")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.25538, 1.1981, -4.47331)
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, -0.0671161, 3.26355, 3.31065)
+fov = 86.7
